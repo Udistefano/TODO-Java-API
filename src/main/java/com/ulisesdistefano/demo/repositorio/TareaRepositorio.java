@@ -25,7 +25,7 @@ public class TareaRepositorio {
         t.setTitulo(rs.getString("titulo"));
         t.setDescripcion(rs.getString("descripcion"));
         t.setCompletado(rs.getBoolean("completado"));
-        t.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+        t.setCreatedAt(LocalDateTime.parse(rs.getString("created_at")));
         return t;
     };
 
