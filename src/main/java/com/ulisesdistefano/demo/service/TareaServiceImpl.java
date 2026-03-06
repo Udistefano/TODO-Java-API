@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/*
+ * Implementación de la lógica de negocio para manejar tareas.
+ * Se encarga de interactuar con el repositorio y transformar entidades a DTOs.
+ */
 @Service
 public class TareaServiceImpl implements TareaService{
     private final TareaRepositorio repo;

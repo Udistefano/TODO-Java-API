@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+// Repositorio para manejar operaciones CRUD sobre la entidad Tarea utilizando JdbcTemplate.
 @Repository
 public class TareaRepositorio {
 

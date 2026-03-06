@@ -2,6 +2,7 @@ package com.ulisesdistefano.demo.modelo;
 
 import java.time.LocalDateTime;
 
+// clase tarea con getters y setters
 public class Tarea {
 
     private Long id;

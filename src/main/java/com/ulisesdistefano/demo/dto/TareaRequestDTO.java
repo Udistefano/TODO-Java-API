@@ -1,5 +1,6 @@
 package com.ulisesdistefano.demo.dto;
 
+// DTO de solicitud para crear o actualizar tareas
 public class TareaRequestDTO {
     private String titulo;
     private String descripcion;

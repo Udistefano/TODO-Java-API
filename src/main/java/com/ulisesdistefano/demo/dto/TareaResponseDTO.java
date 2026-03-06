@@ -1,5 +1,6 @@
 package com.ulisesdistefano.demo.dto;
 
+// DTO de respuesta para las tareas
 public class TareaResponseDTO {
     private Long id;
     private String titulo;

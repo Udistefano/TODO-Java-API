@@ -9,11 +9,10 @@ import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-
 import java.time.LocalDateTime;
 import java.util.List;
 
+// Controlador REST para manejar las solicitudes HTTP relacionadas con las tareas
 @RestController
 @RequestMapping("/api/tareas")
 public class TareaController {
