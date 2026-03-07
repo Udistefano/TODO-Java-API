@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mis Tareas</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="page">
+
+    <header>
+        <h1>Mis <span>Tareas</span></h1>
+        <p>Organizá tu día, una tarea a la vez</p>
+    </header>
+
+    <!-- Add form -->
+    <div class="add-card">
+        <h2>+ Nueva tarea</h2>
+        <div class="input-row">
+            <input id="input-titulo" type="text" placeholder="Título de la tarea..." maxlength="100" />
+            <textarea id="input-desc" rows="2" placeholder="Descripción (opcional)..."></textarea>
+            <button class="btn-add" onclick="crearTarea()">Agregar tarea →</button>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+        <button class="filter-btn active" onclick="setFiltro('todas', this)">Todas</button>
+        <button class="filter-btn" onclick="setFiltro('pendientes', this)">Pendientes</button>
+        <button class="filter-btn" onclick="setFiltro('completadas', this)">Completadas</button>
+    </div>
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat-pill"><span class="dot dot-total"></span><span id="stat-total">0 total</span></div>
+        <div class="stat-pill"><span class="dot dot-pending"></span><span id="stat-pending">0 pendientes</span></div>
+        <div class="stat-pill"><span class="dot dot-done"></span><span id="stat-done">0 listas</span></div>
+    </div>
+
+    <!-- Task list -->
+    <div id="task-list">
+        <div class="loading">Cargando tareas...</div>
+    </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
