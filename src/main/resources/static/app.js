@@ -1,8 +1,17 @@
 const API = 'http://localhost:8080/api/tareas';
 let tareas = [];
 let filtro = 'todas';
+let prioridadSeleccionada = 'MEDIA'; // default
+const colorPrioridad = { ALTA: '#F28B82', MEDIA: '#F5C842', BAJA: '#6DDBA8' };
 
-// Fetchea las tareas desde la API y renderiza. Si falla, muestra un mensaje de error.
+// ── Prioridad buttons ──
+function setPrioridad(valor, btn) {
+  prioridadSeleccionada = valor;
+  document.querySelectorAll('.prioridad-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+// ── Fetch all tasks ──
 async function cargarTareas() {
   try {
     const res = await fetch(API);
@@ -12,57 +21,64 @@ async function cargarTareas() {
   } catch {
     mostrarToast('No se pudo conectar con la API', 'error');
     document.getElementById('task-list').innerHTML =
-      '<div class="empty"><p>Error: No se pudo conectar con la API.<br>¿Está corriendo el servidor?</p></div>';
+      '<div class="empty"><div class="emoji">⚠️</div><p>No se pudo conectar con la API.<br>¿Está corriendo el servidor?</p></div>';
   }
 }
 
-// Crea las tareas enviando un POST a la API. Si falla, muestra un mensaje de error.
+// ── Create task ──
 async function crearTarea() {
   const titulo = document.getElementById('input-titulo').value.trim();
   const descripcion = document.getElementById('input-desc').value.trim();
+  const prioridad = prioridadSeleccionada;
+
   if (!titulo) { mostrarToast('El título no puede estar vacío', 'error'); return; }
 
   try {
     const res = await fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ titulo, descripcion })
+      body: JSON.stringify({ titulo, descripcion, prioridad })
     });
     if (!res.ok) throw new Error();
     document.getElementById('input-titulo').value = '';
     document.getElementById('input-desc').value = '';
-    mostrarToast('Tarea agregada', 'success');
+    // resetear prioridad a MEDIA
+    prioridadSeleccionada = 'MEDIA';
+    document.querySelectorAll('.prioridad-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelector('.prioridad-btn.media').classList.add('selected');
+
+    mostrarToast('¡Tarea agregada! 🎉', 'success');
     await cargarTareas();
   } catch {
     mostrarToast('Error al crear la tarea', 'error');
   }
 }
 
-// Completa la tarea enviando un PATCH a la API. Si falla, muestra un mensaje de error.
+// ── Complete task ──
 async function completarTarea(id) {
   try {
     const res = await fetch(`${API}/${id}/completar`, { method: 'PATCH' });
     if (!res.ok) throw new Error();
-    mostrarToast('Tarea completada!', 'success');
+    mostrarToast('¡Tarea completada! ✅', 'success');
     await cargarTareas();
   } catch {
     mostrarToast('Error al actualizar la tarea', 'error');
   }
 }
 
-// Elimina la tarea enviando un DELETE a la API. Si falla, muestra un mensaje de error.
+// ── Delete task ──
 async function eliminarTarea(id) {
   try {
     const res = await fetch(`${API}/${id}`, { method: 'DELETE' });
     if (!res.ok) throw new Error();
-    mostrarToast('Tarea eliminada', '');
+    mostrarToast('Tarea eliminada 🗑️', '');
     await cargarTareas();
   } catch {
     mostrarToast('Error al eliminar la tarea', 'error');
   }
 }
 
-// Renderiza la lista de tareas según el filtro seleccionado. Si no hay tareas, muestra un mensaje acorde.
+// ── Render ──
 function renderizar() {
   const lista = document.getElementById('task-list');
   const pendientes = tareas.filter(t => !t.completado);
@@ -78,9 +94,9 @@ function renderizar() {
 
   if (filtradas.length === 0) {
     const msgs = {
-      todas:       { txt: '¡No hay tareas! Agregá una arriba.' },
-      pendientes:  { txt: '¡Todo al día! No tenés pendientes.' },
-      completadas: { txt: 'Todavía no completaste ninguna.' }
+      todas:       { emoji: '🌟', txt: '¡No hay tareas! Agregá una arriba.' },
+      pendientes:  { emoji: '🎉', txt: '¡Todo al día! No tenés pendientes.' },
+      completadas: { emoji: '📝', txt: 'Todavía no completaste ninguna.' }
     };
     const m = msgs[filtro];
     lista.innerHTML = `<div class="empty"><div class="emoji">${m.emoji}</div><p>${m.txt}</p></div>`;
@@ -98,6 +114,9 @@ function renderizar() {
       <div class="task-body">
         <div class="task-title">${escapeHtml(t.titulo)}</div>
         ${t.descripcion ? `<div class="task-desc">${escapeHtml(t.descripcion)}</div>` : ''}
+        <span style="font-size:11px; font-weight:700; color:${colorPrioridad[t.prioridad]}; margin-top:4px; display:inline-block;">
+          ● ${t.prioridad}
+        </span>
         <div class="task-date">${formatFecha(t.createdAt)}</div>
       </div>
       <button class="btn-delete" onclick="eliminarTarea(${t.id})" title="Eliminar">

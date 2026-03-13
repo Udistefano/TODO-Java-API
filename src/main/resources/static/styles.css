@@ -21,7 +21,8 @@ body {
   color: var(--text);
   min-height: 100vh;
   padding: 48px 20px 80px;
-  zoom: 1.5;
+  font-size: 18px;
+  zoom: 1.3; /* equivale al 130% del navegador */
 }
 
 .page {
@@ -220,7 +221,7 @@ header p {
 .task-date {
   font-family: 'DM Mono', monospace;
   font-size: 11px;
-  color: var(--muted);
+  color: var(--border);
   margin-top: 6px;
 }
 
@@ -283,3 +284,78 @@ header p {
   from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ── Prioridad buttons ── */
+.prioridad-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.prioridad-group {
+  display: flex;
+  gap: 8px;
+}
+.prioridad-btn {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+/* Hover */
+.prioridad-btn.baja:hover  { border-color: #6DDBA8; color: #6DDBA8; }
+.prioridad-btn.media:hover { border-color: #F5C842; color: #F5C842; }
+.prioridad-btn.alta:hover  { border-color: #F28B82; color: #F28B82; }
+
+/* Seleccionado */
+.prioridad-btn.baja.selected  { border-color: #6DDBA8; background: rgba(109,219,168,0.12); color: #6DDBA8; }
+.prioridad-btn.media.selected { border-color: #F5C842; background: rgba(245,200,66,0.12);  color: #F5C842; }
+.prioridad-btn.alta.selected  { border-color: #F28B82; background: rgba(242,139,130,0.12); color: #F28B82; }
+
+/* ── Prioridad row (override) ── */
+.prioridad-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.prioridad-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+}
+.prioridad-group {
+  display: flex;
+  gap: 6px;
+}
+.prioridad-btn {
+  flex: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.3px;
+}
+.prioridad-btn.baja:hover  { border-color: #6DDBA8; color: #6DDBA8; }
+.prioridad-btn.media:hover { border-color: #F5C842; color: #F5C842; }
+.prioridad-btn.alta:hover  { border-color: #F28B82; color: #F28B82; }
+.prioridad-btn.baja.selected  { border-color: #6DDBA8; background: rgba(109,219,168,0.12); color: #6DDBA8; }
+.prioridad-btn.media.selected { border-color: #F5C842; background: rgba(245,200,66,0.12);  color: #F5C842; }
+.prioridad-btn.alta.selected  { border-color: #F28B82; background: rgba(242,139,130,0.12); color: #F28B82; }

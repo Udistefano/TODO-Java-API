@@ -12,7 +12,7 @@
 
     <header>
         <h1>Mis <span>Tareas</span></h1>
-        <p>Organizá tu día, una tarea a la vez</p>
+        <p>Organizá tu día, una tarea a la vez ✨</p>
     </header>
 
     <!-- Add form -->
@@ -21,6 +21,17 @@
         <div class="input-row">
             <input id="input-titulo" type="text" placeholder="Título de la tarea..." maxlength="100" />
             <textarea id="input-desc" rows="2" placeholder="Descripción (opcional)..."></textarea>
+
+            <!-- Prioridad inline -->
+            <div class="prioridad-row">
+                <span class="prioridad-label">Prioridad</span>
+                <div class="prioridad-group">
+                    <button class="prioridad-btn baja" onclick="setPrioridad('BAJA', this)">Baja</button>
+                    <button class="prioridad-btn media selected" onclick="setPrioridad('MEDIA', this)">Media</button>
+                    <button class="prioridad-btn alta" onclick="setPrioridad('ALTA', this)">Alta</button>
+                </div>
+            </div>
+
             <button class="btn-add" onclick="crearTarea()">Agregar tarea →</button>
         </div>
     </div>
@@ -31,6 +42,7 @@
         <button class="filter-btn" onclick="setFiltro('pendientes', this)">Pendientes</button>
         <button class="filter-btn" onclick="setFiltro('completadas', this)">Completadas</button>
     </div>
+
     <!-- Stats -->
     <div class="stats">
         <div class="stat-pill"><span class="dot dot-total"></span><span id="stat-total">0 total</span></div>
@@ -45,6 +57,7 @@
 
 </div>
 
+<!-- Toast -->
 <div class="toast" id="toast"></div>
 <script src="app.js"></script>
 </body>
