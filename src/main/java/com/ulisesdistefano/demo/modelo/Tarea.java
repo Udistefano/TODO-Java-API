@@ -1,5 +1,4 @@
 package com.ulisesdistefano.demo.modelo;
-
 import java.time.LocalDateTime;
 
 // clase tarea con getters y setters
@@ -10,6 +9,7 @@ public class Tarea {
     private String descripcion;
     private boolean completado;
     private LocalDateTime createdAt;
+    private Prioridad prioridad;
 
     // Getters
     public Long getId() { return id; }
@@ -17,6 +17,7 @@ public class Tarea {
     public String getDescripcion() { return descripcion; }
     public boolean isCompletado() { return completado; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+    public Prioridad getPrioridad() { return prioridad; }
 
     // Setters
     public void setId(Long id) { this.id = id; }
@@ -24,4 +25,5 @@ public class Tarea {
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
     public void setCompletado(boolean completado) { this.completado = completado; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setPrioridad(Prioridad prioridad) { this.prioridad = prioridad; }
 }

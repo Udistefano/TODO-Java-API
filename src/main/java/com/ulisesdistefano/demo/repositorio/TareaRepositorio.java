@@ -1,5 +1,6 @@
 package com.ulisesdistefano.demo.repositorio;
 
+import com.ulisesdistefano.demo.modelo.Prioridad;
 import com.ulisesdistefano.demo.modelo.Tarea;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -26,6 +27,7 @@ public class TareaRepositorio {
         t.setTitulo(rs.getString("titulo"));
         t.setDescripcion(rs.getString("descripcion"));
         t.setCompletado(rs.getBoolean("completado"));
+        t.setPrioridad(Prioridad.valueOf(rs.getString("prioridad")));
         t.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         return t;
     };
@@ -44,13 +46,16 @@ public class TareaRepositorio {
     public Tarea save(Tarea tarea) {
         if (tarea.getId() == null) {
             jdbc.update(
-                    "INSERT INTO tareas (titulo, descripcion, completado, created_at) VALUES (?, ?, ?, ?)",
-                    tarea.getTitulo(), tarea.getDescripcion(), tarea.isCompletado(), tarea.getCreatedAt()
+                    "INSERT INTO tareas (titulo, descripcion, completado, prioridad, created_at) VALUES (?, ?, ?, ?, ?)",
+                    tarea.getTitulo(), tarea.getDescripcion(),
+                    tarea.isCompletado(), tarea.getPrioridad().name(), // ← .name() convierte Enum a String
+                    tarea.getCreatedAt()
             );
         } else {
             jdbc.update(
-                    "UPDATE tareas SET titulo = ?, descripcion = ?, completado = ? WHERE id = ?",
-                    tarea.getTitulo(), tarea.getDescripcion(), tarea.isCompletado(), tarea.getId()
+                    "UPDATE tareas SET titulo = ?, descripcion = ?, completado = ?, prioridad = ? WHERE id = ?",
+                    tarea.getTitulo(), tarea.getDescripcion(),
+                    tarea.isCompletado(), tarea.getPrioridad().name(), tarea.getId()
             );
         }
         return tarea;

@@ -2,6 +2,7 @@ package com.ulisesdistefano.demo.service;
 import com.ulisesdistefano.demo.dto.TareaRequestDTO;
 import com.ulisesdistefano.demo.dto.TareaResponseDTO;
 import com.ulisesdistefano.demo.exception.TareaNotFoundException;
+import com.ulisesdistefano.demo.modelo.Prioridad;
 import com.ulisesdistefano.demo.modelo.Tarea;
 import com.ulisesdistefano.demo.repositorio.TareaRepositorio;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,11 @@ public class TareaServiceImpl implements TareaService{
         tarea.setDescripcion(tareaRequest.getDescripcion());
         tarea.setCompletado(false);
         tarea.setCreatedAt(LocalDateTime.now());
+        if (tareaRequest.getPrioridad() != null) {
+            tarea.setPrioridad(tareaRequest.getPrioridad());
+        } else {
+            tarea.setPrioridad(Prioridad.MEDIA);
+        }
         return toDTO(repo.save(tarea));
     }
 
@@ -88,6 +94,7 @@ public class TareaServiceImpl implements TareaService{
                 t.getTitulo(),
                 t.getDescripcion(),
                 t.isCompletado(),
+                t.getPrioridad(),
                 t.getCreatedAt().toString()
         );
     }

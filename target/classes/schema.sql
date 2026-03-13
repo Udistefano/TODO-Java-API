@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS tareas (
     titulo      TEXT    NOT NULL,
     descripcion TEXT,
     completado  BOOLEAN NOT NULL DEFAULT FALSE,
+    prioridad   TEXT    NOT NULL DEFAULT 'MEDIA',
     created_at  TIMESTAMP NOT NULL
 );
