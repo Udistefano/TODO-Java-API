@@ -1,12 +1,14 @@
 package com.ulisesdistefano.demo.service;
 import com.ulisesdistefano.demo.dto.TareaRequestDTO;
 import com.ulisesdistefano.demo.dto.TareaResponseDTO;
+import com.ulisesdistefano.demo.exception.TareaNotFoundException;
 import com.ulisesdistefano.demo.modelo.Tarea;
 import com.ulisesdistefano.demo.repositorio.TareaRepositorio;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional; // Optional con metodo ispresent hace que lo busque directamente en la base, sin usar un for ni nada
 
 /*
  * Implementación de la lógica de negocio para manejar tareas.
@@ -22,8 +24,12 @@ public class TareaServiceImpl implements TareaService{
 
     @Override
     public TareaResponseDTO obtenerPorId(Long id) {
-        Tarea tarea = repo.findById(id).orElseThrow(() -> new RuntimeException("Tarea no encontrada" + id));
-        return toDTO(tarea);
+        Optional<Tarea> resultado = repo.findById(id);
+        if (resultado.isPresent()) {
+            return toDTO(resultado.get());
+        } else {
+            throw new TareaNotFoundException(id);
+        }
     }
 
     @Override
@@ -43,22 +49,37 @@ public class TareaServiceImpl implements TareaService{
 
     @Override
     public TareaResponseDTO actualizar(Long id, TareaRequestDTO tareaRequest) {
-        Tarea tarea = repo.findById(id).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
-        tarea.setTitulo(tareaRequest.getTitulo());
-        tarea.setDescripcion(tareaRequest.getDescripcion());
-        return toDTO(repo.save(tarea));
+        Optional <Tarea> resultado = repo.findById(id);
+        if (resultado.isEmpty()) {
+            Tarea tarea = resultado.get();
+            tarea.setTitulo(tareaRequest.getTitulo());
+            tarea.setDescripcion(tareaRequest.getDescripcion());
+            return toDTO(repo.save(tarea));
+        } else {
+            throw new TareaNotFoundException(id);
+        }
     }
 
     @Override
     public TareaResponseDTO completar(Long id) {
-        Tarea tarea = repo.findById(id).orElseThrow(() -> new RuntimeException("Tarea no encontrada"));
-        tarea.setCompletado(true);
-        return toDTO(repo.save(tarea));
+        Optional<Tarea> resultado = repo.findById(id);
+        if (resultado.isPresent()) {
+            Tarea tarea = resultado.get();
+            tarea.setCompletado(true);
+            return toDTO(repo.save(tarea));
+        } else {
+            throw new TareaNotFoundException(id);
+        }
     }
 
     @Override
     public void eliminar(Long id) {
-        repo.deleteById(id);
+        Optional<Tarea> resultado = repo.findById(id);
+        if (resultado.isPresent()) {
+            repo.deleteById(id);
+        } else {
+            throw new TareaNotFoundException(id);
+        }
     }
 
     private TareaResponseDTO toDTO(Tarea t) {
