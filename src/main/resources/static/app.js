@@ -47,7 +47,7 @@ async function crearTarea() {
     document.querySelectorAll('.prioridad-btn').forEach(b => b.classList.remove('selected'));
     document.querySelector('.prioridad-btn.media').classList.add('selected');
 
-    mostrarToast('¡Tarea agregada! 🎉', 'success');
+    mostrarToast('Tarea agregada', 'success');
     await cargarTareas();
   } catch {
     mostrarToast('Error al crear la tarea', 'error');
@@ -59,7 +59,7 @@ async function completarTarea(id) {
   try {
     const res = await fetch(`${API}/${id}/completar`, { method: 'PATCH' });
     if (!res.ok) throw new Error();
-    mostrarToast('¡Tarea completada! ✅', 'success');
+    mostrarToast('Tarea completada!', 'success');
     await cargarTareas();
   } catch {
     mostrarToast('Error al actualizar la tarea', 'error');
@@ -71,7 +71,7 @@ async function eliminarTarea(id) {
   try {
     const res = await fetch(`${API}/${id}`, { method: 'DELETE' });
     if (!res.ok) throw new Error();
-    mostrarToast('Tarea eliminada 🗑️', '');
+    mostrarToast('Tarea eliminada', '');
     await cargarTareas();
   } catch {
     mostrarToast('Error al eliminar la tarea', 'error');
@@ -94,9 +94,9 @@ function renderizar() {
 
   if (filtradas.length === 0) {
     const msgs = {
-      todas:       { emoji: '🌟', txt: '¡No hay tareas! Agregá una arriba.' },
-      pendientes:  { emoji: '🎉', txt: '¡Todo al día! No tenés pendientes.' },
-      completadas: { emoji: '📝', txt: 'Todavía no completaste ninguna.' }
+      todas:       { txt: '¡No hay tareas! Agregá una arriba.' },
+      pendientes:  { txt: '¡Todo al día! No tenés pendientes.' },
+      completadas: { txt: 'Todavía no completaste ninguna.' }
     };
     const m = msgs[filtro];
     lista.innerHTML = `<div class="empty"><div class="emoji">${m.emoji}</div><p>${m.txt}</p></div>`;
