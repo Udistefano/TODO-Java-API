@@ -86,7 +86,7 @@ function renderizar() {
 
   document.getElementById('stat-total').textContent   = `${tareas.length} total`;
   document.getElementById('stat-pending').textContent = `${pendientes.length} pendientes`;
-  document.getElementById('stat-done').textContent    = `${completadas.length} listas`;
+  document.getElementById('stat-done').textContent    = `${completadas.length} completadas`;
 
   let filtradas = tareas;
   if (filtro === 'pendientes')  filtradas = pendientes;
@@ -99,7 +99,7 @@ function renderizar() {
       completadas: { txt: 'Todavía no completaste ninguna.' }
     };
     const m = msgs[filtro];
-    lista.innerHTML = `<div class="empty"><div class="emoji">${m.emoji}</div><p>${m.txt}</p></div>`;
+    lista.innerHTML = `<div class="empty"><p>${m.txt}</p></div>`;
     return;
   }
 
